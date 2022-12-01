@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"stripe-example/pkg/config"
+
 	"cloud.google.com/go/firestore"
 
 	"github.com/stripe/stripe-go/v74"
@@ -19,11 +21,12 @@ var (
 
 func main() {
 	ctx := context.Background()
-	client, err := firestore.NewClient(ctx, "glassy-keyword-370311")
+	conf := config.NewFSConfig()
+	client, err := firestore.NewClient(ctx, conf.ProjectID)
 	if err != nil {
 		log.Fatal(err)
 	}
-	cli, err := client.Collection("golang-stripe").Doc("6gwybq6jqnSM3J0glk9V").Get(ctx)
+	cli, err := client.Collection(conf.Collection).Doc(conf.Document).Get(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
