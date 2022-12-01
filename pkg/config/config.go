@@ -1,18 +1,25 @@
 package config
 
-import "os"
+import (
+	"context"
+	"log"
 
-type FSConfig struct {
-	ProjectID  string
-	Collection string
-	Document   string
+	"github.com/sethvargo/go-envconfig"
+)
+
+type envConfig struct {
+	Port       int    `env:"PORT"`
+	ProjectID  string `env:"PROJECT_ID"`
+	Collection string `env:"COLLECTION"`
+	Document   string `env:"DOCUMENT"`
 }
 
-func NewFSConfig() *FSConfig {
-	return &FSConfig{
-		ProjectID:  os.Getenv("PROJECT_ID"),
-		Collection: os.Getenv("COLLECTION"),
-		Document:   os.Getenv("DOCUMENT"),
+func LoadConfig(ctx context.Context) (*envConfig, error) {
+	var goenv envConfig
+	err := envconfig.Process(ctx, &goenv)
+	if err != nil {
+		log.Fatal(err)
 	}
+	return &goenv, nil
 
 }

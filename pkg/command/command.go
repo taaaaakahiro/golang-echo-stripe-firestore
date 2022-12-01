@@ -1,42 +1,44 @@
-package main
+package command
 
 import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
-
 	"stripe-example/pkg/config"
 
 	"cloud.google.com/go/firestore"
-
 	"github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/price"
 	"github.com/stripe/stripe-go/v74/product"
 )
 
-var (
-	fsClient *firestore.DocumentSnapshot
-)
+func Run() {
+	run(context.Background())
+}
 
-func main() {
-	ctx := context.Background()
-	conf := config.NewFSConfig()
-	client, err := firestore.NewClient(ctx, conf.ProjectID)
+func run(ctx context.Context) {
+	cfg, err := config.LoadConfig(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
-	cli, err := client.Collection(conf.Collection).Doc(conf.Document).Get(ctx)
+	client, err := firestore.NewClient(ctx, cfg.ProjectID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	cli, err := client.Collection(cfg.Collection).Doc(cfg.Document).Get(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(cli.Data())
-	fsClient = cli
-	Init()
+	http.HandleFunc("/", stripeHealthz)
+	log.Printf("Start REST API Server PORT:%d", cfg.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), nil))
 
 }
 
-func Init() {
+func stripeHealthz(w http.ResponseWriter, r *http.Request) {
 	stripe.Key = os.Getenv("SECRET_KEY")
 
 	product_params := &stripe.ProductParams{
