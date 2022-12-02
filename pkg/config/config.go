@@ -12,6 +12,7 @@ type envConfig struct {
 	ProjectID  string `env:"PROJECT_ID"`
 	Collection string `env:"COLLECTION"`
 	Document   string `env:"DOCUMENT"`
+	StripeKey  string `env:"STRIPE_SECRET_KEY"`
 }
 
 func LoadConfig(ctx context.Context) (*envConfig, error) {
