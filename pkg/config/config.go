@@ -7,16 +7,16 @@ import (
 	"github.com/sethvargo/go-envconfig"
 )
 
-type envConfig struct {
+type EnvConfig struct {
 	Port       int    `env:"PORT"`
-	ProjectID  string `env:"PROJECT_ID"`
-	Collection string `env:"COLLECTION"`
-	Document   string `env:"DOCUMENT"`
 	StripeKey  string `env:"STRIPE_SECRET_KEY"`
+	ProjectID  string `env:"FS_PJ_ID"`
+	Collection string `env:"FS_COLLECTION"`
+	Document   string `env:"FS_SUBSC_DOCUMENT"`
 }
 
-func LoadConfig(ctx context.Context) (*envConfig, error) {
-	var goenv envConfig
+func LoadConfig(ctx context.Context) (*EnvConfig, error) {
+	var goenv EnvConfig
 	err := envconfig.Process(ctx, &goenv)
 	if err != nil {
 		log.Fatal(err)
