@@ -43,9 +43,12 @@ func run(ctx context.Context) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// ルートを設定
+	// endpoint
 	e.GET("/", handler.Healthz)
-	e.POST("/subscription", handler.CreateSubscription)
+
+	p := e.Group("products")
+	p.POST("/subs", handler.CreateSubscription)
+
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", cfg.Port)))
 
 }
