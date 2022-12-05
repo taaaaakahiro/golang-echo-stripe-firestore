@@ -69,7 +69,7 @@ func (h *Handler) CreateSubscription(c echo.Context) error {
 		plan.StripePriceID = price.ID
 	}
 
-	err := h.fsService.CreateSubscription(sub)
+	err := h.fsService.CreateSubscription(c.Request().Context(), sub)
 	if err != nil {
 		log.Fatal(err)
 	}
