@@ -8,9 +8,7 @@ import (
 	stripeClient "stripe-example/external/stripe"
 	"stripe-example/pkg/config"
 	"stripe-example/pkg/handler"
-
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"stripe-example/pkg/server"
 )
 
 func Run() {
@@ -35,23 +33,17 @@ func run(ctx context.Context) {
 	}
 
 	// init handler
-	handler := handler.NewHandler(stripeService, fsService)
+	handler, err := handler.NewHandler(stripeService, fsService)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	e := echo.New()
-
-	// ミドルウェアを設定
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	// endpoint
-	e.GET("/", handler.Product.Healthz)
-
-	s := e.Group("subscript")
-	s.POST("/subs", handler.Product.CreateSubscription)
-
-	c := e.Group("customer")
-	c.GET("", handler.Customer.ListCustomer)
-
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", cfg.Port)))
+	// init server
+	server, err := server.NewServer(handler)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// start
+	server.Echo.Logger.Fatal(server.Echo.Start(fmt.Sprintf(":%d", cfg.Port)))
 
 }

@@ -14,10 +14,10 @@ type Handler struct {
 	Product  *product.Handler
 }
 
-func NewHandler(st *st.Stripe, fs *fs.FireStore) *Handler {
+func NewHandler(st *st.Stripe, fs *fs.FireStore) (*Handler, error) {
 	return &Handler{
 		Customer: customer.NewCustomerHandler(st, fs),
 		Payment:  payment.NewPaymentHandler(st, fs),
 		Product:  product.NewProductHandler(st, fs),
-	}
+	}, nil
 }
