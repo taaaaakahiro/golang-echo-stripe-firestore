@@ -16,6 +16,8 @@ type Handler struct {
 
 func NewHandler(st *st.Stripe, fs *fs.FireStore) *Handler {
 	return &Handler{
-		Customer: customer.NewCustomer(st, fs),
+		Customer: customer.NewCustomerHandler(st, fs),
+		Payment:  payment.NewPaymentHandler(st, fs),
+		Product:  product.NewProductHandler(st, fs),
 	}
 }

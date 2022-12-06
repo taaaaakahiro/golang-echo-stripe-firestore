@@ -10,7 +10,7 @@ type Handler struct {
 	firestore *fs.FireStore
 }
 
-func NewPayment(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
+func NewPaymentHandler(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
 	return &Handler{
 		stripe:    stClient,
 		firestore: fsClient,

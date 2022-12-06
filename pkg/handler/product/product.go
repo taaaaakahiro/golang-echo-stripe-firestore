@@ -21,7 +21,7 @@ type Handler struct {
 	firestore *fs.FireStore
 }
 
-func NewProduct(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
+func NewProductHandler(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
 	return &Handler{
 		key:       stClient.Key,
 		stripe:    stClient,
