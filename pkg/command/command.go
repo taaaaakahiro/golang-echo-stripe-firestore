@@ -44,10 +44,13 @@ func run(ctx context.Context) {
 	e.Use(middleware.Recover())
 
 	// endpoint
-	e.GET("/", handler.Healthz)
+	e.GET("/", handler.Product.Healthz)
 
-	p := e.Group("products")
-	p.POST("/subs", handler.CreateSubscription)
+	s := e.Group("subscript")
+	s.POST("/subs", handler.Product.CreateSubscription)
+
+	c := e.Group("customer")
+	c.GET("", handler.Customer.ListCustomer)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", cfg.Port)))
 
