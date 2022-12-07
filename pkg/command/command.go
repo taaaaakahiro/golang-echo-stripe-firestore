@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	firestoreClient "stripe-example/external/firestore"
 	stripeClient "stripe-example/external/stripe"
 	"stripe-example/pkg/config"
@@ -11,11 +12,13 @@ import (
 	"stripe-example/pkg/server"
 )
 
+const exitOK = 0
+
 func Run() {
-	run(context.Background())
+	os.Exit(run(context.Background()))
 }
 
-func run(ctx context.Context) {
+func run(ctx context.Context) int {
 	// init config
 	cfg, err := config.LoadConfig(ctx)
 	if err != nil {
@@ -46,4 +49,5 @@ func run(ctx context.Context) {
 	// start
 	server.Echo.Logger.Fatal(server.Echo.Start(fmt.Sprintf(":%d", cfg.Port)))
 
+	return exitOK
 }

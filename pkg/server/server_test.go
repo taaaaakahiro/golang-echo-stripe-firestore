@@ -1,5 +1,14 @@
 package server
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
-func TestMain(m *testing.M)
+func TestMain(m *testing.M) {
+	// before
+	res := m.Run()
+	// after
+
+	os.Exit(res)
+}

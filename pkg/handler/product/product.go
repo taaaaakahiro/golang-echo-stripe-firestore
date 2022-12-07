@@ -125,3 +125,9 @@ func (h *Handler) CreateSubscription(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, sub)
 }
+
+func (h *Handler) ListSubscription(c echo.Context) error {
+	ctx := c.Request().Context()
+	subscriprions := h.firestore.ListSubscription(ctx)
+	return c.JSON(http.StatusOK, subscriprions)
+}
