@@ -2,6 +2,9 @@ name: Golang Test
 
 on: [push]
 
+env:
+  PORT: 8080
+
 jobs:
   build:
 
