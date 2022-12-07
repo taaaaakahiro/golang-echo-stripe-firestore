@@ -15,7 +15,7 @@ jobs:
           go-version: 1.19
 
       - name: echo
-        run: echo ${PORT}
+        run: echo ${{ secrets.PORT }}
 
       # - name: Test
       #   run: go test -v ./...
