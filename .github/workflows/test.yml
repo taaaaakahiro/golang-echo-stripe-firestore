@@ -4,6 +4,9 @@ on: [push]
 
 env:
   PORT: 8080
+  FS_PJ_ID: glassy-keyword-370311
+  FS_COLLECTION: golang-echo-stripe-firestore
+  FS_SUBSC_DOCUMENT: subscription
 
 jobs:
   build:
@@ -20,5 +23,11 @@ jobs:
       - name: echo
         run: echo ${{ env.PORT }}
 
-      # - name: Test
-      #   run: go test -v ./...
+      - name: Test
+        run: go test -v ./...
+        env:
+          PORT: ${{ env.PORT }}
+          FS_PJ_ID: ${{ env.FS_PJ_ID }}
+          FS_COLLECTION: ${{ env.FS_COLLECTION }}
+          FS_SUBSC_DOCUMENT: ${{ env.FS_SUBSC_DOCUMENT }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
