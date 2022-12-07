@@ -24,11 +24,11 @@ jobs:
         run: echo ${{ env.PORT }}
 
       - name: Create the .env files
-      shell: bash
-      env: 
-        GOOGLE_APPLICATION_CREDENTIALS: key.json
-      run:
-        echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
+        shell: bash
+        env: 
+          GOOGLE_APPLICATION_CREDENTIALS: key.json
+        run:
+          echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
 
       - name: Test
         run: go test -v ./...
