@@ -37,5 +37,5 @@ jobs:
           FS_PJ_ID: ${{ env.FS_PJ_ID }}
           FS_COLLECTION: ${{ env.FS_COLLECTION }}
           FS_SUBSC_DOCUMENT: ${{ env.FS_SUBSC_DOCUMENT }}
-          # OOGLE_APPLICATION_CREDENTIALS: key.json
+          OOGLE_APPLICATION_CREDENTIALS: key.json
           
