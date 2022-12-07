@@ -22,12 +22,6 @@ jobs:
 
       - name: echo
         run: echo ${{ env.PORT }}
-
-      - name: Create the .env files
-        shell: bash
-        env: 
-          
-        run:
           
 
       - name: Test
