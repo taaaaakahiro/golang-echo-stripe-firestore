@@ -1,37 +1,35 @@
-name: Golang Test
+# name: Golang Test
 
-on: [push]
+# on: [push]
 
-env:
-  PORT: 8080
-  FS_PJ_ID: glassy-keyword-370311
-  FS_COLLECTION: golang-echo-stripe-firestore
-  FS_SUBSC_DOCUMENT: subscription
+# env:
+#   PORT: 8080
+#   FS_PJ_ID: glassy-keyword-370311
+#   FS_COLLECTION: golang-echo-stripe-firestore
+#   FS_SUBSC_DOCUMENT: subscription
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
+#       - name: Set up Go
+#         uses: actions/setup-go@v3
+#         with:
+#           go-version: 1.19
 
-      - name: echo
-        run: echo ${{ env.PORT }}
+#       - name: echo
+#         run: echo ${{ env.PORT }}
           
 
-      - name: Test
-        run: |
-          echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} | base64 --decode > key.json
-          go test -v ./...
-        env:
-          PORT: ${{ env.PORT }}
-          FS_PJ_ID: ${{ env.FS_PJ_ID }}
-          FS_COLLECTION: ${{ env.FS_COLLECTION }}
-          FS_SUBSC_DOCUMENT: ${{ env.FS_SUBSC_DOCUMENT }}
-          GOOGLE_APPLICATION_CREDENTIALS: ./key.json
+#       - name: Test
+#         run:
+#           go test -v ./...
+#         env:
+#           PORT: ${{ env.PORT }}
+#           FS_PJ_ID: ${{ env.FS_PJ_ID }}
+#           FS_COLLECTION: ${{ env.FS_COLLECTION }}
+#           FS_SUBSC_DOCUMENT: ${{ env.FS_SUBSC_DOCUMENT }}
           
