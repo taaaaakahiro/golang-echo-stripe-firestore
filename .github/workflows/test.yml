@@ -26,9 +26,9 @@ jobs:
       - name: Create the .env files
         shell: bash
         env: 
-          GOOGLE_APPLICATION_CREDENTIALS: key.json
+          GOOGLE_APPLICATION_CREDENTIALS: ./key.json
         run:
-          echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
+          echo ${{ secrets.SERVICE_ACCOUNT }} | base64 --decode > key.json
 
       - name: Test
         run: go test -v ./...
@@ -37,4 +37,5 @@ jobs:
           FS_PJ_ID: ${{ env.FS_PJ_ID }}
           FS_COLLECTION: ${{ env.FS_COLLECTION }}
           FS_SUBSC_DOCUMENT: ${{ env.FS_SUBSC_DOCUMENT }}
+          # OOGLE_APPLICATION_CREDENTIALS: key.json
           
