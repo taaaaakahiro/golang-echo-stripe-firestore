@@ -6,13 +6,10 @@ import (
 	fs "stripe-example/external/firestore"
 	st "stripe-example/external/stripe"
 	"stripe-example/pkg/domain/collection"
-	"stripe-example/pkg/domain/output"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
 	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/price"
-	"github.com/stripe/stripe-go/v74/product"
 )
 
 type Handler struct {
@@ -32,30 +29,12 @@ func NewProductHandler(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
 func (h *Handler) Healthz(c echo.Context) error {
 	stripe.Key = h.key
 
-	id := "productId1"
-
-	product_params := &stripe.ProductParams{
-		ID:          &id,
-		Name:        stripe.String("Starter Subscription"),
-		Description: stripe.String("$12/Month subscription"),
-	}
-	starter_product, err := product.New(product_params)
+	id := "stripeId1" //todo: 仮値
+	payment, err := h.stripe.CreatePayment(id)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "intenal server error")
 	}
-
-	price_params := &stripe.PriceParams{
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Product:  stripe.String(starter_product.ID),
-		Recurring: &stripe.PriceRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
-		},
-		UnitAmount: stripe.Int64(1200),
-	}
-	starter_price, _ := price.New(price_params)
-
-	pay := output.Payment{ProductID: starter_price.ID, PriceID: starter_price.ID}
-	return c.JSON(http.StatusOK, pay)
+	return c.JSON(http.StatusOK, payment)
 
 }
 
@@ -98,7 +77,7 @@ func (h *Handler) CreateSubscription(c echo.Context) error {
 		productParams.AddMetadata("subscription_id", sub.ID)
 		productParams.AddMetadata("plan_id", plan.ID)
 
-		product, _ := h.stripe.StripeClient.Products.New(productParams)
+		product, _ := h.stripe.Client.Products.New(productParams)
 
 		// Priceの作成 https://stripe.com/docs/api/prices/create
 		priceParams := &stripe.PriceParams{
@@ -112,7 +91,7 @@ func (h *Handler) CreateSubscription(c echo.Context) error {
 		}
 		priceParams.AddMetadata("subscription_id", sub.ID)
 		priceParams.AddMetadata("plan_id", plan.ID)
-		price, _ := h.stripe.StripeClient.Prices.New(priceParams)
+		price, _ := h.stripe.Client.Prices.New(priceParams)
 
 		plan.StripeProductID = product.ID
 		plan.StripePriceID = price.ID
