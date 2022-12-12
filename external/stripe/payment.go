@@ -4,9 +4,16 @@ import (
 	"stripe-example/pkg/domain/output"
 
 	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/paymentintent"
 	"github.com/stripe/stripe-go/v74/price"
 	"github.com/stripe/stripe-go/v74/product"
 )
+
+func (s *Stripe) GetPayment(id string) (*stripe.PaymentIntent, error) {
+	pi, _ := paymentintent.Get(id, nil)
+
+	return pi, nil
+}
 
 func (s *Stripe) CreatePayment(id string) (*output.Payment, error) {
 	product_params := &stripe.ProductParams{
@@ -14,6 +21,7 @@ func (s *Stripe) CreatePayment(id string) (*output.Payment, error) {
 		Name:        stripe.String("Starter Subscription"),
 		Description: stripe.String("$12/Month subscription"),
 	}
+
 	starter_product, err := product.New(product_params)
 	if err != nil {
 		return nil, err

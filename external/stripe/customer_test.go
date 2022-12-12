@@ -10,9 +10,12 @@ import (
 )
 
 func TestStripe_CreateCustomer(t *testing.T) {
-
 	t.Run("ok", func(t *testing.T) {
-		param := &input.Customer{Name: "user1", Email: "test@gmail.com", Phone: "012-345-6789"}
+		param := &input.Customer{
+			Name:  "user1",
+			Email: "test@gmail.com",
+			Phone: "012-345-6789",
+		}
 		got, err := testStripe.CreateCustomer(param)
 		assert.NoError(t, err)
 		assert.NotEmpty(t, got)
@@ -29,7 +32,6 @@ func TestStripe_CreateCustomer(t *testing.T) {
 }
 
 func TestStripe_GetCustomer(t *testing.T) {
-
 	t.Run("GetCustomer", func(t *testing.T) {
 		test := input.Customer{
 			Name: "user1",
