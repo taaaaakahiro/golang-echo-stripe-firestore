@@ -26,7 +26,22 @@ func TestStripe_GetProduct(t *testing.T) {
 			_, err = product.Del(p.ID, nil)
 			assert.NoError(t, err)
 		})
+	})
+}
 
+func TestStripe_CreateProduct(t *testing.T) {
+	t.Run("ok: title1", func(t *testing.T) {
+		product, price, err := testStripe.CreteaProduct("title1")
+		assert.NoError(t, err)
+		assert.NotEmpty(t, price)
+		assert.NotEmpty(t, product)
+
+		assert.Equal(t, "title1", product.Name)
+
+		t.Cleanup(func() {
+			// _, err = product.Del(p.ID, nil)
+			// assert.NoError(t, err)
+		})
 	})
 
 }
