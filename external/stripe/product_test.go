@@ -31,15 +31,15 @@ func TestStripe_GetProduct(t *testing.T) {
 
 func TestStripe_CreateProduct(t *testing.T) {
 	t.Run("ok: title1", func(t *testing.T) {
-		product, price, err := testStripe.CreteaProduct("title1")
+		pro, pri, err := testStripe.CreteaProduct("title1")
 		assert.NoError(t, err)
-		assert.NotEmpty(t, price)
-		assert.NotEmpty(t, product)
+		assert.NotEmpty(t, pro)
+		assert.NotEmpty(t, pri)
 
-		assert.Equal(t, "title1", product.Name)
+		assert.Equal(t, "title1", pro.Name)
 
 		t.Cleanup(func() {
-			// _, err = product.Del(p.ID, nil)
+			// _, err = product.Del(pro.ID, nil)
 			// assert.NoError(t, err)
 		})
 	})
