@@ -2,20 +2,24 @@ package stripe
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestStripe_GetPayment(t *testing.T) {
+func TestStripe_CreatePaymentMethod(t *testing.T) {
+	//TODO: add test
 	t.Run("ok", func(t *testing.T) {
-		// got, err := testStripe.GetPayment(id)
-		// assert.NoError(t, err)
-		// assert.NotEmpty(t, got)
+		_, err := testStripe.CreatePaymentMethod()
+		assert.NoError(t, err)
 
-		// assert.Equal(t, "", got.ID)
+	})
 
-		// if err != nil {
-		// 	_, err := product.Del(id, nil)
-		// 	assert.NoError(t, err)
-		// }
+}
+func TestStripe_ListPaymentMethods(t *testing.T) {
+	//TODO: add test
+	t.Run("ok", func(t *testing.T) {
+		_, err := testStripe.ListPaymentMethods()
+		assert.NoError(t, err)
 
 	})
 

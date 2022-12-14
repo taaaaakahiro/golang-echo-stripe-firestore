@@ -4,15 +4,41 @@ import (
 	"stripe-example/pkg/domain/output"
 
 	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/paymentintent"
+	"github.com/stripe/stripe-go/v74/paymentmethod"
 	"github.com/stripe/stripe-go/v74/price"
 	"github.com/stripe/stripe-go/v74/product"
 )
 
-func (s *Stripe) GetPayment(id string) (*stripe.PaymentIntent, error) {
-	pi, _ := paymentintent.Get(id, nil)
+func (s *Stripe) CreatePaymentMethod() (*stripe.PaymentMethod, error) {
+	stripe.Key = s.Key
+	params := &stripe.PaymentMethodParams{
+		Card: &stripe.PaymentMethodCardParams{
+			Number:   stripe.String("4242424242424242"),
+			ExpMonth: stripe.Int64(8),
+			ExpYear:  stripe.Int64(2022),
+			CVC:      stripe.String("314"),
+		},
+		Type: stripe.String("card"),
+	}
+	pm, _ := paymentmethod.New(params)
 
-	return pi, nil
+	return pm, nil
+}
+
+func (s *Stripe) ListPaymentMethods() ([]*stripe.PaymentMethod, error) {
+	stripe.Key = s.Key
+	params := &stripe.PaymentMethodListParams{
+
+		// Customer: stripe.String("cus_60uWheDVvFJCig"),
+		// Type: stripe.String("card"),
+	}
+	i := paymentmethod.List(params)
+	pm := make([]*stripe.PaymentMethod, 0)
+	for i.Next() {
+		pm = append(pm, i.PaymentMethod())
+	}
+
+	return pm, nil
 }
 
 func (s *Stripe) CreatePayment(id string) (*output.Payment, error) {
