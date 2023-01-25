@@ -23,7 +23,6 @@ func NewServer(handler *handler.Handler) (*Server, error) {
 	e.GET("/", handler.Product.Healthz)
 
 	p := e.Group("product")
-	p.GET("/", handler.Product.ListSubscription)
 	p.POST("/", handler.Product.CreateSubscription)
 
 	c := e.Group("customer")

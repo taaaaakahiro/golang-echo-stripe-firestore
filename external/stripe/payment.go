@@ -29,8 +29,8 @@ func (s *Stripe) ListPaymentMethods() ([]*stripe.PaymentMethod, error) {
 	stripe.Key = s.Key
 	params := &stripe.PaymentMethodListParams{
 
-		// Customer: stripe.String("cus_60uWheDVvFJCig"),
-		// Type: stripe.String("card"),
+		Customer: stripe.String("cus_60uWheDVvFJCig"),
+		Type:     stripe.String("card"),
 	}
 	i := paymentmethod.List(params)
 	pm := make([]*stripe.PaymentMethod, 0)

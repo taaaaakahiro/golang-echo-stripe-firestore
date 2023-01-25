@@ -19,7 +19,8 @@ stripe API
 
 ## API
 ```
-$ curl -X GET http://localhost:8080/product/
+$ curl -X GET localhost:8080
+$ curl -X POST localhost:8080/product
 ```
 ```json
 {

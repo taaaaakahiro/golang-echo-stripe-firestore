@@ -1,21 +1,18 @@
 package customer
 
 import (
-	fs "stripe-example/external/firestore"
 	st "stripe-example/external/stripe"
 
 	"github.com/labstack/echo"
 )
 
 type Handler struct {
-	stripe    *st.Stripe
-	firestore *fs.FireStore
+	stripe *st.Stripe
 }
 
-func NewCustomerHandler(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
+func NewCustomerHandler(stClient *st.Stripe) *Handler {
 	return &Handler{
-		stripe:    stClient,
-		firestore: fsClient,
+		stripe: stClient,
 	}
 }
 

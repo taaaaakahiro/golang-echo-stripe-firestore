@@ -1,9 +1,7 @@
 package product
 
 import (
-	"log"
 	"net/http"
-	fs "stripe-example/external/firestore"
 	st "stripe-example/external/stripe"
 	"stripe-example/pkg/domain/collection"
 
@@ -13,16 +11,14 @@ import (
 )
 
 type Handler struct {
-	key       string
-	stripe    *st.Stripe
-	firestore *fs.FireStore
+	key    string
+	stripe *st.Stripe
 }
 
-func NewProductHandler(stClient *st.Stripe, fsClient *fs.FireStore) *Handler {
+func NewProductHandler(stClient *st.Stripe) *Handler {
 	return &Handler{
-		key:       stClient.Key,
-		stripe:    stClient,
-		firestore: fsClient,
+		key:    stClient.Key,
+		stripe: stClient,
 	}
 }
 
@@ -97,16 +93,5 @@ func (h *Handler) CreateSubscription(c echo.Context) error {
 		plan.StripePriceID = price.ID
 	}
 
-	err := h.firestore.CreateSubscription(c.Request().Context(), sub)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	return c.JSON(http.StatusOK, sub)
-}
-
-func (h *Handler) ListSubscription(c echo.Context) error {
-	ctx := c.Request().Context()
-	subscriprions := h.firestore.ListSubscription(ctx)
-	return c.JSON(http.StatusOK, subscriprions)
 }

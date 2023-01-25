@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	firestoreClient "stripe-example/external/firestore"
 	stripeClient "stripe-example/external/stripe"
 	"stripe-example/pkg/config"
 	"stripe-example/pkg/handler"
@@ -24,19 +23,20 @@ func run(ctx context.Context) int {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("start api server(PORT:%d)", cfg.Port)
 	// init stripe api
 	stripeService, err := stripeClient.NewStripe(ctx, cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
 	// init firestore api
-	fsService, err := firestoreClient.NewFireStore(ctx, cfg)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// fsService, err := firestoreClient.NewFireStore(ctx, cfg)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	// init handler
-	handler, err := handler.NewHandler(stripeService, fsService)
+	handler, err := handler.NewHandler(stripeService)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,7 +1,6 @@
 package handler
 
 import (
-	fs "stripe-example/external/firestore"
 	st "stripe-example/external/stripe"
 	"stripe-example/pkg/handler/customer"
 	"stripe-example/pkg/handler/payment"
@@ -14,10 +13,10 @@ type Handler struct {
 	Product  *product.Handler
 }
 
-func NewHandler(st *st.Stripe, fs *fs.FireStore) (*Handler, error) {
+func NewHandler(st *st.Stripe) (*Handler, error) {
 	return &Handler{
-		Customer: customer.NewCustomerHandler(st, fs),
-		Payment:  payment.NewPaymentHandler(st, fs),
-		Product:  product.NewProductHandler(st, fs),
+		Customer: customer.NewCustomerHandler(st),
+		Payment:  payment.NewPaymentHandler(st),
+		Product:  product.NewProductHandler(st),
 	}, nil
 }
